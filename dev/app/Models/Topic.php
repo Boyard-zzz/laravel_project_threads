@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Topic extends Model
 {
-    //
+    protected $fillable = ['thread_id', 'user_id', 'title', 'body'];
+
+    public function thread() { return $this->belongsTo(Thread::class); }
+    public function user() { return $this->belongsTo(User::class); }
+    public function replies() { return $this->hasMany(Reply::class); }
 }
