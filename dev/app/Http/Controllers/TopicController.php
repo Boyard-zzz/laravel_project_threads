@@ -58,4 +58,15 @@ public function update(Request $request, Topic $topic)
 
         return redirect()->route('topics.show', $topic);
     }
+
+        public function destroy(Topic $topic)
+    {
+        $threadId = $topic->thread_id;
+        $topic->delete();
+
+        return redirect()->route('threads.show', $threadId);
+    }
+
+
+
 }

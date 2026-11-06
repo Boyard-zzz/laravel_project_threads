@@ -15,6 +15,17 @@
 
             @forelse ($thread->topics as $topic)
                 <a href="{{ route('topics.show', $topic) }}" class="block bg-white p-6 rounded shadow hover:bg-gray-50">
+
+                    @auth
+                       @if (auth()->user()->isAdmin())
+                          <form method="POST" action="{{ route('threads.destroy', $thread) }}" onsubmit="return confirm('Thread en alles erin verwijderen?')">
+                             @csrf
+                             @method('DELETE')
+                             <button class="text-sm text-red-600">Thread verwijderen</button>
+                           </form>
+                        @endif
+                    @endauth
+
                     <h3 class="font-bold text-lg">{{ $topic->title }}</h3>
                     <p class="text-sm text-gray-500">door {{ $topic->user->username }}</p>
                 </a>
