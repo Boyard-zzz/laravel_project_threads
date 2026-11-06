@@ -20,6 +20,29 @@ class TopicController extends Controller
         return view('topics.create', compact('thread'));
     }
 
+
+    public function edit(Topic $topic)
+{
+    abort_unless($topic->user_id === auth()->id() || auth()->user()->isAdmin(), 403);
+
+    return view('topics.edit', compact('topic'));
+}
+
+public function update(Request $request, Topic $topic)
+{
+    abort_unless($topic->user_id === auth()->id() || auth()->user()->isAdmin(), 403);
+
+    $data = $request->validate([
+        'title' => ['required', 'string', 'max:255'],
+        'body' => ['required', 'string'],
+    ]);
+
+    $topic->update($data);
+
+    return redirect()->route('topics.show', $topic);
+}
+
+
     public function store(Request $request, Thread $thread)
     {
         $data = $request->validate([
