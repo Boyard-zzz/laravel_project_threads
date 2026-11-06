@@ -19,6 +19,11 @@ Route::put('/topics/{topic}', [TopicController::class, 'update'])->name('topics.
 Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit'])->name('replies.edit');
 Route::put('/replies/{reply}', [ReplyController::class, 'update'])->name('replies.update');
 
+Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+Route::get('/users/{user}', [UserController::class, 'show'])->name('admin.users.show');
+Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+
 Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->group(function () {
     Route::get('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
     Route::post('/threads', [ThreadController::class, 'store'])->name('threads.store');
