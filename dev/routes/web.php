@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\ReplyController;
-
+use App\Http\Middleware\EnsureUserIsAdmin;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/dashboard', function () {
@@ -14,6 +14,15 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/threads/{thread}', [ThreadController::class, 'show'])->name('threads.show');
+Route::get('/topics/{topic}/edit', [TopicController::class, 'edit'])->name('topics.edit');
+Route::put('/topics/{topic}', [TopicController::class, 'update'])->name('topics.update');
+Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit'])->name('replies.edit');
+Route::put('/replies/{reply}', [ReplyController::class, 'update'])->name('replies.update');
+
+Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->group(function () {
+    Route::get('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
+    Route::post('/threads', [ThreadController::class, 'store'])->name('threads.store');
+});
 
 Route::get('/topics/{topic}', [TopicController::class, 'show'])->name('topics.show');
 

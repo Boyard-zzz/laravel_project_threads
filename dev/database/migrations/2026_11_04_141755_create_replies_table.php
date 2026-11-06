@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('replies', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('title');
-            $table->string('description');
-            $table->timestamps();
-        });
+         Schema::create('replies', function (Blueprint $table) {
+           $table->id();
+           $table->foreignId('topic_id')->constrained()->cascadeOnDelete();
+           $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+           $table->text('body');
+           $table->timestamps();
+    });
     }
 
     /**

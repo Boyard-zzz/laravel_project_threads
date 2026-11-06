@@ -5,6 +5,13 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
+            @auth
+               @if (auth()->user()->isAdmin())
+                <a href="{{ route('threads.create') }}" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded">Nieuwe thread</a>
+               @endif
+            @endauth
+
+            
             @forelse ($threads as $thread)
                 <a href="{{ route('threads.show', $thread) }}" class="block bg-white p-6 rounded shadow hover:bg-gray-50">
                     <h3 class="font-bold text-lg">{{ $thread->title }}</h3>

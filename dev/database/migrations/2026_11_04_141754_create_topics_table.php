@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('topics', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('title');
-            $table->string('description');
-            $table->timestamps();
-        });
+        $table->id();
+        $table->foreignId('thread_id')->constrained()->cascadeOnDelete();
+        $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+        $table->string('title');
+        $table->text('body');
+        $table->timestamps();
+       });
     }
 
     /**
