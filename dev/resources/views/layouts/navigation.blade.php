@@ -5,9 +5,10 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ url('/') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
+                 <a href="{{ url('/') }}" class="flex items-center gap-2">
+                   <x-application-logo class="block h-9 w-9" />
+                   <span class="font-bold text-lg text-slate-800 hidden sm:inline">DevForum</span>
+                 </a>
                 </div>
 
                 <!-- Navigation Links -->

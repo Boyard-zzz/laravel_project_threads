@@ -5,6 +5,13 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
+
+              <div class="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white p-8 shadow-sm">
+                <h1 class="text-2xl font-bold">Welkom bij DevForum</h1>
+                <p class="mt-1 text-indigo-100">Stel je vragen over PHP, Laravel en meer, en help anderen met een reactie.</p>
+              </div>
+
+
             @auth
                 @if (auth()->user()->isAdmin())
                     <a href="{{ route('threads.create') }}" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded">Nieuwe thread</a>
