@@ -23,7 +23,8 @@ Route::put('/replies/{reply}', [ReplyController::class, 'update'])->name('replie
 Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->group(function () {
     Route::get('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
     Route::post('/threads', [ThreadController::class, 'store'])->name('threads.store');
-
+    Route::get('/threads/{thread}/edit', [ThreadController::class, 'edit'])->name('threads.edit');
+    Route::put('/threads/{thread}', [ThreadController::class, 'update'])->name('threads.update');
     
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('admin.users.show');

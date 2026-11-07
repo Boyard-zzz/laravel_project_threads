@@ -17,38 +17,46 @@
                 <p class="text-gray-700 whitespace-pre-line">{{ $topic->body }}</p>
             </div>
 
-            <h3 class="font-bold text-lg">Reacties</h3>
+            <h3 class="font-semibold text-lg text-slate-900">
+                Reacties <span class="text-slate-400 text-base">({{ $topic->replies->count() }})</span>
+            </h3>
 
-            @forelse ($topic->replies as $reply)
-                <div class="bg-white p-4 rounded shadow">
-                    <p class="text-sm text-gray-500 mb-1">{{ $reply->user->username }} · {{ $reply->created_at->format('d-m-Y H:i') }}</p>
+             @forelse ($topic->replies as $reply)
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <div class="flex items-center justify-between gap-4 mb-2">
+                        <p class="text-sm text-slate-500">
+                            <span class="font-medium text-slate-700">{{ $reply->user->username }}</span>
+                            · {{ $reply->created_at->format('d-m-Y H:i') }}
+                        </p>
 
-                    @auth
-                        <div class="flex gap-3 mb-1">
-                            @if (auth()->id() === $reply->user_id || auth()->user()->isAdmin())
-                                <a href="{{ route('replies.edit', $reply) }}" class="text-sm text-indigo-600">Aanpassen</a>
-                            @endif
+                        @auth
+                            <div class="flex items-center gap-3 text-sm">
+                                @if (auth()->id() === $reply->user_id || auth()->user()->isAdmin())
+                                    <a href="{{ route('replies.edit', $reply) }}" class="text-indigo-600 hover:underline">Aanpassen</a>
+                                @endif
 
-                            @if (auth()->user()->isAdmin())
-                                <form method="POST" action="{{ route('replies.destroy', $reply) }}" onsubmit="return confirm('Reactie verwijderen?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="text-sm text-red-600">Verwijderen</button>
-                                </form>
-                            @endif
-                        </div>
-                    @endauth
+                                @if (auth()->user()->isAdmin())
+                                    <form method="POST" action="{{ route('replies.destroy', $reply) }}" onsubmit="return confirm('Reactie verwijderen?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="text-red-600 hover:underline">Verwijderen</button>
+                                    </form>
+                                @endif
+                            </div>
+                        @endauth
+                    </div>
 
-                    <p class="text-gray-700 whitespace-pre-line">{{ $reply->body }}</p>
+                    <p class="text-slate-700 whitespace-pre-line">{{ $reply->body }}</p>
                 </div>
             @empty
-                <p class="text-gray-500">Nog geen reacties.</p>
+                <p class="text-slate-500">Nog geen reacties.</p>
             @endforelse
 
             @auth
-                <form method="POST" action="{{ route('replies.store', $topic) }}" class="bg-white p-6 rounded shadow space-y-3">
+                <form method="POST" action="{{ route('replies.store', $topic) }}" class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 space-y-3">
                     @csrf
-                    <textarea name="body" rows="4" class="w-full border-gray-300 rounded" required>{{ old('body') }}</textarea>
+                    <label for="body" class="block text-sm font-medium text-slate-700">Jouw reactie</label>
+                    <textarea id="body" name="body" rows="4" class="w-full border-slate-300 rounded-md" required>{{ old('body') }}</textarea>
                     <x-input-error :messages="$errors->get('body')" />
                     <x-primary-button>Reactie plaatsen</x-primary-button>
                 </form>

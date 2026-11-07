@@ -42,5 +42,23 @@ class ThreadController extends Controller
         return redirect('/');
     }
 
+        public function edit(Thread $thread)
+   {
+        return view('threads.edit', compact('thread'));
+   }
+
+       public function update(Request $request, Thread $thread)
+   {
+        $data = $request->validate([
+         'title' => ['required', 'string', 'max:255'],
+         'description' => ['required', 'string', 'max:255'],
+        ]);
+
+    $thread->update($data);
+
+    return redirect()->route('threads.show', $thread);
+  } 
+
+
 
 }

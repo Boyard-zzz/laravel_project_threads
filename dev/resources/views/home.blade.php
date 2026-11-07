@@ -20,11 +20,15 @@
 
                     @auth
                         @if (auth()->user()->isAdmin())
-                            <form method="POST" action="{{ route('threads.destroy', $thread) }}" onsubmit="return confirm('Thread en alles erin verwijderen?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-sm text-red-600">Verwijderen</button>
-                            </form>
+                            <div class="flex items-center gap-3">
+                                <a href="{{ route('threads.edit', $thread) }}" class="text-sm text-indigo-600 hover:underline">Aanpassen</a>
+
+                                <form method="POST" action="{{ route('threads.destroy', $thread) }}" onsubmit="return confirm('Thread en alles erin verwijderen?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="text-sm text-red-600 hover:underline">Verwijderen</button>
+                                </form>
+                            </div>
                         @endif
                     @endauth
                 </div>
