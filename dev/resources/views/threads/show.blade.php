@@ -14,21 +14,22 @@
             @endauth
 
             @forelse ($thread->topics as $topic)
-                <a href="{{ route('topics.show', $topic) }}" class="block bg-white p-6 rounded shadow hover:bg-gray-50">
+                <div class="flex items-center gap-4 bg-white p-6 rounded shadow hover:bg-gray-50">
+                    <a href="{{ route('topics.show', $topic) }}" class="block flex-1 min-w-0">
+                        <h3 class="font-bold text-lg">{{ $topic->title }}</h3>
+                        <p class="text-sm text-gray-500">door {{ $topic->user->username }}</p>
+                    </a>
 
                     @auth
-                       @if (auth()->user()->isAdmin())
-                          <form method="POST" action="{{ route('threads.destroy', $thread) }}" onsubmit="return confirm('Thread en alles erin verwijderen?')">
-                             @csrf
-                             @method('DELETE')
-                             <button class="text-sm text-red-600">Thread verwijderen</button>
-                           </form>
+                        @if (auth()->user()->isAdmin())
+                            <form method="POST" action="{{ route('topics.destroy', $topic) }}" onsubmit="return confirm('Topic verwijderen?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="text-sm text-red-600">Verwijderen</button>
+                            </form>
                         @endif
                     @endauth
-
-                    <h3 class="font-bold text-lg">{{ $topic->title }}</h3>
-                    <p class="text-sm text-gray-500">door {{ $topic->user->username }}</p>
-                </a>
+                </div>
             @empty
                 <p class="text-gray-500">Nog geen topics in deze thread.</p>
             @endforelse

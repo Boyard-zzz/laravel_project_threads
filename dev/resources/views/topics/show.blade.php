@@ -9,19 +9,9 @@
                 <p class="text-sm text-gray-500 mb-2">door {{ $topic->user->username }} · {{ $topic->created_at->format('d-m-Y H:i') }}</p>
 
                 @auth
-                    <div class="flex gap-3 mb-2">
-                        @if (auth()->id() === $topic->user_id || auth()->user()->isAdmin())
-                            <a href="{{ route('topics.edit', $topic) }}" class="text-sm text-indigo-600">Aanpassen</a>
-                        @endif
-
-                        @if (auth()->user()->isAdmin())
-                            <form method="POST" action="{{ route('topics.destroy', $topic) }}" onsubmit="return confirm('Topic verwijderen?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-sm text-red-600">Verwijderen</button>
-                            </form>
-                        @endif
-                    </div>
+                    @if (auth()->id() === $topic->user_id || auth()->user()->isAdmin())
+                        <a href="{{ route('topics.edit', $topic) }}" class="text-sm text-indigo-600 inline-block mb-2">Aanpassen</a>
+                    @endif
                 @endauth
 
                 <p class="text-gray-700 whitespace-pre-line">{{ $topic->body }}</p>
