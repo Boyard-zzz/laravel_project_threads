@@ -8,12 +8,6 @@
             <div class="bg-white p-6 rounded shadow">
                 <p class="text-sm text-gray-500 mb-2">door {{ $topic->user->username }} · {{ $topic->created_at->format('d-m-Y H:i') }}</p>
 
-                @auth
-                    @if (auth()->id() === $topic->user_id || auth()->user()->isAdmin())
-                        <a href="{{ route('topics.edit', $topic) }}" class="text-sm text-indigo-600 inline-block mb-2">Aanpassen</a>
-                    @endif
-                @endauth
-
                 <p class="text-gray-700 whitespace-pre-line">{{ $topic->body }}</p>
             </div>
 
@@ -21,7 +15,7 @@
                 Reacties <span class="text-slate-400 text-base">({{ $topic->replies->count() }})</span>
             </h3>
 
-             @forelse ($topic->replies as $reply)
+            @forelse ($topic->replies as $reply)
                 <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                     <div class="flex items-center justify-between gap-4 mb-2">
                         <p class="text-sm text-slate-500">

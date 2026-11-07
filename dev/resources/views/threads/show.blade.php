@@ -6,6 +6,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
             <div class="bg-white p-6 rounded shadow">
+                @auth
+                    @if (auth()->user()->isAdmin())
+                        <a href="{{ route('threads.edit', $thread) }}" class="text-sm text-indigo-600 hover:underline inline-block mb-2">Aanpassen</a>
+                    @endif
+                @endauth
+
                 <p class="text-gray-700 whitespace-pre-line">{{ $thread->description }}</p>
             </div>
 
@@ -21,13 +27,19 @@
                     </a>
 
                     @auth
-                        @if (auth()->user()->isAdmin())
-                            <form method="POST" action="{{ route('topics.destroy', $topic) }}" onsubmit="return confirm('Topic verwijderen?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-sm text-red-600">Verwijderen</button>
-                            </form>
-                        @endif
+                        <div class="flex items-center gap-3">
+                            @if (auth()->id() === $topic->user_id || auth()->user()->isAdmin())
+                                <a href="{{ route('topics.edit', $topic) }}" class="text-sm text-indigo-600 hover:underline">Aanpassen</a>
+                            @endif
+
+                            @if (auth()->user()->isAdmin())
+                                <form method="POST" action="{{ route('topics.destroy', $topic) }}" onsubmit="return confirm('Topic verwijderen?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="text-sm text-red-600 hover:underline">Verwijderen</button>
+                                </form>
+                            @endif
+                        </div>
                     @endauth
                 </div>
             @empty
